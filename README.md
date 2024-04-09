@@ -1,8 +1,25 @@
-# React + TypeScript + Vite
+## Movie Time! With React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+POC application to learn how to use React in an it's-not-2016-anymore kind of way, courtesy of Jonas Schmedtmann's [React course](https://www.udemy.com/course/the-ultimate-react-course)
 
-Currently, two official plugins are available:
+## Quick Start
+
+```bash
+  npm i && npm run dev
+```
+
+## Setup
+
+This project was created using the [`react-ts` template for Vite](https://vitejs.dev/guide/#scaffolding-your-first-vite-project)
+
+```bash
+  npm create vite@latest react-movie-client -- --template react-ts
+```
+
+Other requirements/suggestions:
+- Prettier vscode extension
+
+## Vite
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh

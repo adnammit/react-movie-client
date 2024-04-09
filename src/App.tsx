@@ -1,35 +1,73 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// import { useState } from 'react'
 
-function App() {
-  const [count, setCount] = useState(0)
+import { useState } from "react";
+import "./App.css";
+import { Box, Loader, Main, Error } from "./components/Main";
+import { NavBar, NumResults } from "./components/NavBar";
+import { Search } from "./components/Search";
+import { MovieList } from "./components/Movie";
+import { useMovies } from "./data/Movies";
+// import { useLocalStorageState } from './functions';
+
+export default function App() {
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const { movies, isLoading, error } = useMovies(query);
+  // const [watched, setWatched] = useLocalStorageState([], "watched");
+
+  function handleSelectMovie(id: string) {
+    setSelectedId((selectedId) => (id === selectedId ? null : id));
+  }
+
+  // function handleCloseMovie() {
+  //   setSelectedId(null);
+  // }
+
+  // function handleAddWatched(movie: Movie) {
+  //   setWatched((watched) => [...watched, movie]);
+  // }
+
+  // function handleDeleteWatched(id: string) {
+  //   setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  // }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+      <NavBar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResults movies={movies} />
+      </NavBar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {error && (
+            <Error message={error} />
+          )}
+          {!isLoading && !error && (
+            <MovieList movies={movies} onSelectMovie={handleSelectMovie} />
+          )}
+        </Box>
 
-export default App
+        <Box>
+          {selectedId ? <h2>{selectedId}</h2> : <h2>nothing to see</h2>}
+          {/* {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMoviesList
+                watched={watched}
+                onDeleteWatched={handleDeleteWatched}
+              />
+            </>
+          )} */}
+        </Box>
+      </Main>
+    </>
+  );
+}
